@@ -58,7 +58,6 @@ func ParseFile(filename string, t *Matrix, e *Matrix, image *Image) error {
 			}
 			// TODO: Error handling
 			deg, _ := strconv.ParseFloat(args[1], 64)
-			fmt.Printf("rotating %s by %.2f\n", args[0], deg)
 			switch args[0] {
 			case "x":
 				rot := MakeRotX(deg)
@@ -113,8 +112,16 @@ func ParseFile(filename string, t *Matrix, e *Matrix, image *Image) error {
 				continue
 			}
 
+		case "box":
+			args := getArgs(scanner)
+			if err := checkArgCount(args, 6); err != nil {
+				fmt.Println(err)
+				continue
+			}
+			fargs := numerize(args)
+			e.AddBox(fargs[0], fargs[1], fargs[2], fargs[3], fargs[4], fargs[5])
+
 		case "apply":
-			fmt.Println(t)
 			// TODO: Error handling
 			e, _ = e.Mult(t)
 

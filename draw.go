@@ -218,6 +218,12 @@ func (m *Matrix) AddBox(x, y, z, width, height, depth float64) {
 	m.AddEdge(x+width, y, z, x+width, y+height, z)
 	m.AddEdge(x, y+height, z, x+width, y+height, z)
 
+	// Connect front & back
+	m.AddEdge(x, y, z, x, y, z+depth)
+	m.AddEdge(x, y+height, z, x, y+height, z+depth)
+	m.AddEdge(x+width, y, z, x+width, y, z+depth)
+	m.AddEdge(x+width, y+height, z, x+width, y+height, z+depth)
+
 	// Back maybe
 	m.AddEdge(x, y, z+depth, x+width, y, z+depth)
 	m.AddEdge(x, y, z+depth, x, y+height, z+depth)
