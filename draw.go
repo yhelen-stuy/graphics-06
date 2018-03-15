@@ -209,3 +209,38 @@ func (m *Matrix) AddBezier(x0, y0, x1, y1, x2, y2, x3, y3, stepSize float64) err
 	}
 	return nil
 }
+
+func (m *Matrix) AddBox(x, y, z, width, height, depth float64) {
+	// TODO: still need to connect front & back
+	// Front maybe
+	m.AddEdge(x, y, z, x+width, y, z)
+	m.AddEdge(x, y, z, x, y+height, z)
+	m.AddEdge(x+width, y, z, x+width, y+height, z)
+	m.AddEdge(x, y+height, z, x+width, y+height, z)
+
+	// Back maybe
+	m.AddEdge(x, y, z+depth, x+width, y, z+depth)
+	m.AddEdge(x, y, z+depth, x, y+height, z+depth)
+	m.AddEdge(x+width, y, z+depth, x+width, y+height, z+depth)
+	m.AddEdge(x, y+height, z+depth, x+width, y+height, z+depth)
+}
+
+/* realized i should do a box first who am i
+// Honestly why do I even return errors
+func generateSpherePoints(cx, cy, cz, r, stepSize float64) (*Matrix, error) {
+	m := MakeMatrix(3, 0)
+	var steps int = int(1 / stepSize)
+	// Rotating
+	for i := 0; i <= steps; i++ {
+		phi := 2 * math.Pi * i
+		// Semicircle
+		for j := 0; j <= steps; j++ {
+			theta := math.Pi * j
+			x := r*math.Cos(theta) + cx
+			y := r*math.Sin(theta)*math.Cos(phi) + cy
+			z := r*math.Sin(theta)*math.Sin(phi) + cz
+
+		}
+	}
+}
+*/
