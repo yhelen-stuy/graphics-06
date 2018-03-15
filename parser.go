@@ -61,15 +61,12 @@ func ParseFile(filename string, t *Matrix, e *Matrix, image *Image) error {
 			switch args[0] {
 			case "x":
 				rot := MakeRotX(deg)
-				fmt.Println(rot)
 				t, _ = t.Mult(rot)
 			case "y":
 				rot := MakeRotY(deg)
-				fmt.Println(rot)
 				t, _ = t.Mult(rot)
 			case "z":
 				rot := MakeRotZ(deg)
-				fmt.Println(rot)
 				t, _ = t.Mult(rot)
 			default:
 				// TODO: Error handling
@@ -120,6 +117,15 @@ func ParseFile(filename string, t *Matrix, e *Matrix, image *Image) error {
 			}
 			fargs := numerize(args)
 			e.AddBox(fargs[0], fargs[1], fargs[2], fargs[3], fargs[4], fargs[5])
+
+		case "sphere":
+			args := getArgs(scanner)
+			if err := checkArgCount(args, 4); err != nil {
+				fmt.Println(err)
+				continue
+			}
+			fargs := numerize(args)
+			e.AddSphere(fargs[0], fargs[1], fargs[2], fargs[3], 10)
 
 		case "apply":
 			// TODO: Error handling

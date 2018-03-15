@@ -2,7 +2,7 @@ package main
 
 import (
 	"errors"
-	// "fmt"
+	"fmt"
 	"math"
 )
 
@@ -231,22 +231,30 @@ func (m *Matrix) AddBox(x, y, z, width, height, depth float64) {
 	m.AddEdge(x, y+height, z+depth, x+width, y+height, z+depth)
 }
 
-/* realized i should do a box first who am i
-// Honestly why do I even return errors
-func generateSpherePoints(cx, cy, cz, r, stepSize float64) (*Matrix, error) {
-	m := MakeMatrix(3, 0)
+func (m *Matrix) AddSphere(cx, cy, cz, r, stepSize float64) {
+	points := generateSpherePoints(cx, cy, cz, r, stepSize)
+	for i := 0; i < points.cols; i++ {
+		p := points.mat
+		m.AddEdge(p[0][i], p[1][i], p[2][i], p[0][i], p[1][i]+1, p[2][i])
+	}
+}
+
+func generateSpherePoints(cx, cy, cz, r, stepSize float64) *Matrix {
+	fmt.Println("generating sphere pts")
+	m := MakeMatrix(4, 0)
 	var steps int = int(1 / stepSize)
 	// Rotating
 	for i := 0; i <= steps; i++ {
-		phi := 2 * math.Pi * i
+		phi := 2.0 * math.Pi * float64(i)
 		// Semicircle
 		for j := 0; j <= steps; j++ {
-			theta := math.Pi * j
+			theta := math.Pi * float64(j)
 			x := r*math.Cos(theta) + cx
 			y := r*math.Sin(theta)*math.Cos(phi) + cy
 			z := r*math.Sin(theta)*math.Sin(phi) + cz
-
+			m.AddPoint(x, y, z)
 		}
 	}
+	fmt.Println(m)
+	return m
 }
-*/
