@@ -125,7 +125,7 @@ func ParseFile(filename string, t *Matrix, e *Matrix, image *Image) error {
 				continue
 			}
 			fargs := numerize(args)
-			e.AddSphere(fargs[0], fargs[1], fargs[2], fargs[3], 10)
+			e.AddSphere(fargs[0], fargs[1], fargs[2], fargs[3])
 
 		case "apply":
 			// TODO: Error handling

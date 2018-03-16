@@ -6,6 +6,10 @@ import (
 	"math"
 )
 
+const (
+	sphereStepSize float64 = 1.0 / 50
+)
+
 func (image Image) DrawLines(edges *Matrix, c Color) {
 	m := edges.mat
 	for i := 0; i < edges.cols-1; i += 2 {
@@ -231,30 +235,29 @@ func (m *Matrix) AddBox(x, y, z, width, height, depth float64) {
 	m.AddEdge(x, y+height, z+depth, x+width, y+height, z+depth)
 }
 
-func (m *Matrix) AddSphere(cx, cy, cz, r, stepSize float64) {
-	points := generateSpherePoints(cx, cy, cz, r, stepSize)
+func (m *Matrix) AddSphere(cx, cy, cz, r float64) {
+	points := generateSpherePoints(cx, cy, cz, r)
 	for i := 0; i < points.cols; i++ {
 		p := points.mat
-		m.AddEdge(p[0][i], p[1][i], p[2][i], p[0][i], p[1][i]+1, p[2][i])
+		m.AddEdge(p[0][i], p[1][i]+1, p[2][i]+1, p[0][i], p[1][i], p[2][i])
 	}
 }
 
-func generateSpherePoints(cx, cy, cz, r, stepSize float64) *Matrix {
-	fmt.Println("generating sphere pts")
+func generateSpherePoints(cx, cy, cz, r float64) *Matrix {
 	m := MakeMatrix(4, 0)
-	var steps int = int(1 / stepSize)
 	// Rotating
-	for i := 0; i <= steps; i++ {
-		phi := 2.0 * math.Pi * float64(i)
+	for i := 0.0; i <= 1.0; i += sphereStepSize {
+		phi := 2.0 * math.Pi * i
 		// Semicircle
-		for j := 0; j <= steps; j++ {
-			theta := math.Pi * float64(j)
+		for j := 0.0; j <= 1.0; j += sphereStepSize {
+			theta := math.Pi * j
 			x := r*math.Cos(theta) + cx
 			y := r*math.Sin(theta)*math.Cos(phi) + cy
 			z := r*math.Sin(theta)*math.Sin(phi) + cz
 			m.AddPoint(x, y, z)
 		}
 	}
-	fmt.Println(m)
+	m.AddPoint(cx, cy-r, cz)
+	fmt.Println(cy - r)
 	return m
 }
