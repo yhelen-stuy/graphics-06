@@ -127,6 +127,18 @@ func ParseFile(filename string, t *Matrix, e *Matrix, image *Image) error {
 			fargs := numerize(args)
 			e.AddSphere(fargs[0], fargs[1], fargs[2], fargs[3])
 
+		case "torus":
+			args := getArgs(scanner)
+			if err := checkArgCount(args, 5); err != nil {
+				fmt.Println(err)
+				continue
+			}
+			fargs := numerize(args)
+			e.AddTorus(fargs[0], fargs[1], fargs[2], fargs[3], fargs[4])
+
+		case "clear":
+			e = MakeMatrix(4, 0)
+
 		case "apply":
 			// TODO: Error handling
 			e, _ = e.Mult(t)
@@ -150,7 +162,9 @@ func ParseFile(filename string, t *Matrix, e *Matrix, image *Image) error {
 			break
 
 		default:
-			fmt.Printf("Error: Couldn't recognize command %s\n", c)
+			if c[0] != '#' {
+				fmt.Printf("Error: Couldn't recognize command %s\n", c)
+			}
 			continue
 		}
 	}

@@ -2,7 +2,7 @@ package main
 
 import (
 	"errors"
-	"fmt"
+	// "fmt"
 	"math"
 )
 
@@ -257,7 +257,33 @@ func generateSpherePoints(cx, cy, cz, r float64) *Matrix {
 			m.AddPoint(x, y, z)
 		}
 	}
-	m.AddPoint(cx, cy-r, cz)
-	fmt.Println(cy - r)
+	m.AddPoint(cx-r, cy, cz)
+	return m
+}
+
+func (m *Matrix) AddTorus(cx, cy, cz, r1, r2 float64) {
+	points := generateTorusPoints(cx, cy, cz, r1, r2)
+	for i := 0; i < points.cols; i++ {
+		p := points.mat
+		m.AddEdge(p[0][i], p[1][i]+1, p[2][i]+1, p[0][i], p[1][i], p[2][i])
+	}
+}
+
+// r1: Radius of circle
+// r2: Radius of torus
+func generateTorusPoints(cx, cy, cz, r1, r2 float64) *Matrix {
+	m := MakeMatrix(4, 0)
+	// Rotating
+	for i := 0.0; i <= 1.0; i += sphereStepSize {
+		phi := 2.0 * math.Pi * i
+		// Circle
+		for j := 0.0; j <= 1.0; j += sphereStepSize {
+			theta := 2.0 * math.Pi * j
+			x := math.Cos(phi)*(r1*math.Cos(theta)+r2) + cx
+			y := r1*math.Sin(theta) + cy
+			z := -math.Sin(phi)*(r1*math.Cos(theta)+r2) + cz
+			m.AddPoint(x, y, z)
+		}
+	}
 	return m
 }
