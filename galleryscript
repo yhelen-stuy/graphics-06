@@ -1,0 +1,17 @@
+torus
+0 0 0 20 175
+ident
+rotate
+x 20
+move
+250 150 0
+apply
+sphere
+300 200 0 50
+sphere
+150 175 0 45
+sphere
+230 225 0 55
+sphere
+340 180 0 40
+display

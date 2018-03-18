@@ -7,7 +7,8 @@ import (
 )
 
 const (
-	sphereStepSize float64 = 1.0 / 50
+	sphereStepSize float64 = 1.0 / 75
+	torusStepSize  float64 = 1.0 / 100
 )
 
 func (image Image) DrawLines(edges *Matrix, c Color) {
@@ -274,10 +275,10 @@ func (m *Matrix) AddTorus(cx, cy, cz, r1, r2 float64) {
 func generateTorusPoints(cx, cy, cz, r1, r2 float64) *Matrix {
 	m := MakeMatrix(4, 0)
 	// Rotating
-	for i := 0.0; i <= 1.0; i += sphereStepSize {
+	for i := 0.0; i <= 1.0; i += torusStepSize {
 		phi := 2.0 * math.Pi * i
 		// Circle
-		for j := 0.0; j <= 1.0; j += sphereStepSize {
+		for j := 0.0; j <= 1.0; j += torusStepSize {
 			theta := 2.0 * math.Pi * j
 			x := math.Cos(phi)*(r1*math.Cos(theta)+r2) + cx
 			y := r1*math.Sin(theta) + cy
