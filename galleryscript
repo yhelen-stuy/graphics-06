@@ -15,3 +15,5 @@ sphere
 sphere
 340 180 0 40
 display
+save
+what.ppm
