@@ -216,24 +216,23 @@ func (m *Matrix) AddBezier(x0, y0, x1, y1, x2, y2, x3, y3, stepSize float64) err
 }
 
 func (m *Matrix) AddBox(x, y, z, width, height, depth float64) {
-	// TODO: still need to connect front & back
 	// Front maybe
 	m.AddEdge(x, y, z, x+width, y, z)
-	m.AddEdge(x, y, z, x, y+height, z)
-	m.AddEdge(x+width, y, z, x+width, y+height, z)
-	m.AddEdge(x, y+height, z, x+width, y+height, z)
+	m.AddEdge(x, y, z, x, y-height, z)
+	m.AddEdge(x+width, y, z, x+width, y-height, z)
+	m.AddEdge(x, y-height, z, x+width, y-height, z)
 
 	// Connect front & back
-	m.AddEdge(x, y, z, x, y, z+depth)
-	m.AddEdge(x, y+height, z, x, y+height, z+depth)
-	m.AddEdge(x+width, y, z, x+width, y, z+depth)
-	m.AddEdge(x+width, y+height, z, x+width, y+height, z+depth)
+	m.AddEdge(x, y, z, x, y, z-depth)
+	m.AddEdge(x, y-height, z, x, y-height, z-depth)
+	m.AddEdge(x+width, y, z, x+width, y, z-depth)
+	m.AddEdge(x+width, y-height, z, x+width, y-height, z-depth)
 
 	// Back maybe
-	m.AddEdge(x, y, z+depth, x+width, y, z+depth)
-	m.AddEdge(x, y, z+depth, x, y+height, z+depth)
-	m.AddEdge(x+width, y, z+depth, x+width, y+height, z+depth)
-	m.AddEdge(x, y+height, z+depth, x+width, y+height, z+depth)
+	m.AddEdge(x, y, z-depth, x+width, y, z-depth)
+	m.AddEdge(x, y, z-depth, x, y-height, z-depth)
+	m.AddEdge(x+width, y, z-depth, x+width, y-height, z-depth)
+	m.AddEdge(x, y-height, z-depth, x+width, y-height, z-depth)
 }
 
 func (m *Matrix) AddSphere(cx, cy, cz, r float64) {
