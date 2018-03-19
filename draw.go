@@ -48,7 +48,7 @@ func (image Image) DrawLine(c Color, x0, y0, x1, y1 int) error {
 func (image Image) drawLineOctant1(c Color, lA, lB, x0, y0, x1, y1 int) error {
 	y := y0
 	lD := 2*lA + lB
-	for x := x0; x < x1; x++ {
+	for x := x0; x <= x1; x++ {
 		err := image.plot(c, x, y)
 		if err != nil {
 			return err
@@ -65,7 +65,7 @@ func (image Image) drawLineOctant1(c Color, lA, lB, x0, y0, x1, y1 int) error {
 func (image Image) drawLineOctant2(c Color, lA, lB, x0, y0, x1, y1 int) error {
 	x := x0
 	lD := lA + 2*lB
-	for y := y0; y < y1; y++ {
+	for y := y0; y <= y1; y++ {
 		err := image.plot(c, x, y)
 		if err != nil {
 			return err
@@ -82,7 +82,7 @@ func (image Image) drawLineOctant2(c Color, lA, lB, x0, y0, x1, y1 int) error {
 func (image Image) drawLineOctant7(c Color, lA, lB, x0, y0, x1, y1 int) error {
 	x := x0
 	lD := lA - 2*lB
-	for y := y0; y > y1; y-- {
+	for y := y0; y >= y1; y-- {
 		err := image.plot(c, x, y)
 		if err != nil {
 			return err
@@ -99,7 +99,7 @@ func (image Image) drawLineOctant7(c Color, lA, lB, x0, y0, x1, y1 int) error {
 func (image Image) drawLineOctant8(c Color, lA, lB, x0, y0, x1, y1 int) error {
 	y := y0
 	lD := 2*lA - lB
-	for x := x0; x < x1; x++ {
+	for x := x0; x <= x1; x++ {
 		err := image.plot(c, x, y)
 		if err != nil {
 			return err
@@ -239,7 +239,7 @@ func (m *Matrix) AddSphere(cx, cy, cz, r float64) {
 	points := generateSpherePoints(cx, cy, cz, r)
 	for i := 0; i < points.cols; i++ {
 		p := points.mat
-		m.AddEdge(p[0][i], p[1][i]+1, p[2][i]+1, p[0][i], p[1][i], p[2][i])
+		m.AddEdge(p[0][i], p[1][i], p[2][i], p[0][i], p[1][i], p[2][i])
 	}
 }
 
@@ -265,7 +265,7 @@ func (m *Matrix) AddTorus(cx, cy, cz, r1, r2 float64) {
 	points := generateTorusPoints(cx, cy, cz, r1, r2)
 	for i := 0; i < points.cols; i++ {
 		p := points.mat
-		m.AddEdge(p[0][i], p[1][i]+1, p[2][i]+1, p[0][i], p[1][i], p[2][i])
+		m.AddEdge(p[0][i], p[1][i], p[2][i], p[0][i], p[1][i], p[2][i])
 	}
 }
 
